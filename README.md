@@ -1,6 +1,6 @@
-# OAuth 2.0 Server for Laravel
+### NOTE: Supporting this until we migrate away. As of writing that just means supporting Laravel 5.4. Readme barely changed and neither will anything else as long as it works.
 
-## NOTE: Supporting this until we migrate away. As of writing that just means supporting Laravel 5.4.
+# OAuth 2.0 Server for Laravel
 
 ![oauth2-server-laravel](https://cloud.githubusercontent.com/assets/499192/9065550/751404ba-3ad2-11e5-9f92-3d4d5d4b9c54.png)
 
