@@ -1,5 +1,6 @@
 {
   "name": "fulfillment/oauth2-server-laravel",
+  "version": "dev-feature/laravel-upgrade58",
   "description": "An OAuth 2.0 bridge for Laravel",
   "keywords": [
     "oauth2",
