@@ -1,5 +1,13 @@
 # CHANGELOG
 
+<<<<<<< HEAD
+## 6.0.0 (upcoming)
+
+- Rewrite for league/oauth2-server 5.0
+- Added Laravel 5.3 support
+- Added auth guard support
+- Removed PHP 5.5 support
+=======
 # 5.2.0 (released 2016-08-10)
 
 - Add Laravel 5.3 support
@@ -15,6 +23,7 @@
 ## 5.1.2 (released 2016-01-13)
 
 - Fix Lumen 5.2 support bug
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
 
 ## 5.1.1 (released 2015-12-22)
 

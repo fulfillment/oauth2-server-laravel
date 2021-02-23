@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of OAuth 2.0 Laravel.
+ * This file is part of Laravel OAuth 2.0.
  *
  * (c) Luca Degasperi <packages@lucadegasperi.com>
  *
@@ -9,38 +9,27 @@
  * file that was distributed with this source code.
  */
 
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+namespace LucaDegasperi\OAuth2Server\Tests;
 
-abstract class AbstractTestCase extends OrchestraTestCase
+use GrahamCampbell\TestBench\AbstractPackageTestCase;
+use LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider;
+
+/**
+ * This is the abstract test class.
+ *
+ * @author Vincent Klaiber <hello@vinkla.com>
+ */
+abstract class AbstractTestCase extends AbstractPackageTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
-     * Get base path.
+     * Get the service provider class.
+     *
+     * @param \Illuminate\Contracts\Foundation\Application $app
      *
      * @return string
      */
-    protected function getBasePath()
+    protected function getServiceProviderClass($app)
     {
-        // reset base path to point to our package's src directory
-        return __DIR__.'/../vendor/orchestra/testbench/fixture';
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
-            'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-        ];
-    }
-
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Authorizer' => 'LucaDegasperi\OAuth2Server\Facades\Authorizer',
-        ];
+        return OAuth2ServerServiceProvider::class;
     }
 }

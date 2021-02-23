@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of OAuth 2.0 Laravel.
+ * This file is part of Laravel OAuth 2.0.
  *
  * (c) Luca Degasperi <packages@lucadegasperi.com>
  *
@@ -11,27 +11,32 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+<<<<<<< HEAD
+use DateInterval;
+=======
 use Illuminate\Contracts\Container\Container as Application;
 use Illuminate\Foundation\Application as LaravelApplication;
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application as LumenApplication;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\CryptKey;
+use League\OAuth2\Server\Grant\AuthCodeGrant;
+use League\OAuth2\Server\Grant\ImplicitGrant;
+use League\OAuth2\Server\Grant\PasswordGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
+use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
+use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
+use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
-use League\OAuth2\Server\Storage\AccessTokenInterface;
-use League\OAuth2\Server\Storage\AuthCodeInterface;
-use League\OAuth2\Server\Storage\ClientInterface;
-use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use League\OAuth2\Server\Storage\ScopeInterface;
-use League\OAuth2\Server\Storage\SessionInterface;
-use LucaDegasperi\OAuth2Server\Middleware\CheckAuthCodeRequestMiddleware;
-use LucaDegasperi\OAuth2Server\Middleware\OAuthClientOwnerMiddleware;
-use LucaDegasperi\OAuth2Server\Middleware\OAuthMiddleware;
-use LucaDegasperi\OAuth2Server\Middleware\OAuthUserOwnerMiddleware;
 
 /**
  * This is the oauth2 server service provider class.
  *
  * @author Luca Degasperi <packages@lucadegasperi.com>
+ * @author Vincent Klaiber <hello@vinkla.com>
  */
 class OAuth2ServerServiceProvider extends ServiceProvider
 {
@@ -42,26 +47,29 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig($this->app);
-        $this->setupMigrations($this->app);
+        $this->setupConfig();
+        $this->setupMigrations();
+
+        $this->bootGuard();
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'oauth2server');
     }
 
     /**
      * Setup the config.
      *
+<<<<<<< HEAD
+=======
      * @param \Illuminate\Contracts\Container\Container $app
      *
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
      * @return void
      */
-    protected function setupConfig(Application $app)
+    protected function setupConfig()
     {
         $source = realpath(__DIR__.'/../config/oauth2.php');
 
-        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
-            $this->publishes([$source => config_path('oauth2.php')]);
-        } elseif ($app instanceof LumenApplication) {
-            $app->configure('oauth2');
-        }
+        $this->publishes([$source => config_path('oauth2.php')]);
 
         $this->mergeConfigFrom($source, 'oauth2');
     }
@@ -69,17 +77,18 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the migrations.
      *
+<<<<<<< HEAD
+=======
      * @param \Illuminate\Contracts\Container\Container $app
      *
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
      * @return void
      */
-    protected function setupMigrations(Application $app)
+    protected function setupMigrations()
     {
         $source = realpath(__DIR__.'/../database/migrations/');
 
-        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
-            $this->publishes([$source => database_path('migrations')], 'migrations');
-        }
+        $this->publishes([$source => database_path('migrations')], 'migrations');
     }
 
     /**
@@ -89,10 +98,30 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAuthorizer($this->app);
-        $this->registerMiddlewareBindings($this->app);
+        $this->registerGrantTypes();
+        $this->registerServer();
     }
 
+<<<<<<< HEAD
+    protected function registerServer()
+    {
+        $this->app->singleton(AuthorizationServer::class, function ($app) {
+            $server = new AuthorizationServer(
+                $app->make(ClientRepositoryInterface::class),
+                $app->make(AccessTokenRepositoryInterface::class),
+                $app->make(ScopeRepositoryInterface::class),
+                new CryptKey($app['config']->get('oauth2.private_key_path'), $app['config']->get('oauth2.key_passphrase')),
+                new CryptKey($app['config']->get('oauth2.public_key_path'), $app['config']->get('oauth2.key_passphrase')),
+                $app->make($app['config']->get('oauth2.response_type')),
+                $app->make($app['config']->get('oauth2.authorization_validator'))
+            );
+
+            foreach ($app['config']->get('oauth2.grant_types') as $grantType) {
+                $server->enableGrantType(
+                    $app->make($grantType['class'], $grantType),
+                    new DateInterval('PT'.$grantType['access_token_ttl'].'S')
+                );
+=======
     /**
      * Register the Authorization server with the IoC container.
      *
@@ -141,22 +170,26 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                 }
 
                 $issuer->addGrantType($grant, $grantIdentifier);
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
             }
 
-            $checker = $app->make(ResourceServer::class);
-
-            $authorizer = new Authorizer($issuer, $checker);
-            $authorizer->setRequest($app['request']);
-            $authorizer->setTokenType($app->make($config['token_type']));
-
-            $app->refresh('request', $authorizer, 'setRequest');
-
-            return $authorizer;
+            return $server;
         });
 
-        $app->alias('oauth2-server.authorizer', Authorizer::class);
+        $this->app->singleton(ResourceServer::class, function ($app) {
+            $server = new ResourceServer(
+                $app->make(AccessTokenRepositoryInterface::class),
+                new CryptKey($app['config']->get('oauth2.public_key_path'), $app['config']->get('oauth2.key_passphrase')),
+                $app->make($app['config']->get('oauth2.authorization_validator'))
+            );
+
+            return $server;
+        });
     }
 
+<<<<<<< HEAD
+    protected function registerGrantTypes()
+=======
     /**
      * Register the Middleware to the IoC container because
      * some middleware need additional parameters.
@@ -166,34 +199,57 @@ class OAuth2ServerServiceProvider extends ServiceProvider
      * @return void
      */
     public function registerMiddlewareBindings(Application $app)
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
     {
-        $app->singleton(CheckAuthCodeRequestMiddleware::class, function ($app) {
-            return new CheckAuthCodeRequestMiddleware($app['oauth2-server.authorizer']);
+        $this->app->bind(AuthCodeGrant::class, function ($app, $parameters = []) {
+            $grant = new AuthCodeGrant(
+                $app->make(AuthCodeRepositoryInterface::class),
+                $app->make(RefreshTokenRepositoryInterface::class),
+                new DateInterval('PT'.$parameters['auth_code_ttl'].'S')
+            );
+
+            if (array_key_exists('code_exchange_proof', $parameters)) {
+                if ($parameters['code_exchange_proof'] === true) {
+                    $grant->enableCodeExchangeProof();
+                }
+            }
+
+            return $grant;
         });
 
-        $app->singleton(OAuthMiddleware::class, function ($app) {
-            $httpHeadersOnly = $app['config']->get('oauth2.http_headers_only');
-
-            return new OAuthMiddleware($app['oauth2-server.authorizer'], $httpHeadersOnly);
+        $this->app->bind(ImplicitGrant::class, function ($app, $parameters = []) {
+            return new ImplicitGrant(
+                $app->make(UserRepositoryInterface::class)
+            );
         });
 
-        $app->singleton(OAuthClientOwnerMiddleware::class, function ($app) {
-            return new OAuthClientOwnerMiddleware($app['oauth2-server.authorizer']);
+        $this->app->bind(PasswordGrant::class, function ($app, $parameters = []) {
+            return new PasswordGrant(
+                $app->make(UserRepositoryInterface::class),
+                $app->make(RefreshTokenRepositoryInterface::class)
+            );
         });
 
-        $app->singleton(OAuthUserOwnerMiddleware::class, function ($app) {
-            return new OAuthUserOwnerMiddleware($app['oauth2-server.authorizer']);
+        $this->app->bind(RefreshTokenGrant::class, function ($app, $parameters = []) {
+            return new RefreshTokenGrant(
+                $app->make(RefreshTokenRepositoryInterface::class)
+            );
         });
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return string[]
-     * @codeCoverageIgnore
-     */
-    public function provides()
+    protected function bootGuard()
     {
-        return ['oauth2-server.authorizer'];
+        $this->app['auth']->extend('oauth2', function ($app, $name, array $config) {
+            $guard = new Guard(
+                $app['auth']->createUserProvider($config['provider']),
+                $app->make(ResourceServer::class),
+                $app['request'],
+                $app->make(ClientRepositoryInterface::class)
+            );
+
+            $app->refresh('request', $guard, 'setRequest');
+
+            return $guard;
+        });
     }
 }

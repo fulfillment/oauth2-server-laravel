@@ -1,17 +1,22 @@
+<<<<<<< HEAD
+# Laravel OAuth 2.0
+=======
 ### NOTE: Supporting this until we migrate away. As of writing that just means supporting Laravel 5.5. Readme barely changed and neither will anything else as long as it works.
 
 # OAuth 2.0 Server for Laravel
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
 
 ![oauth2-server-laravel](https://cloud.githubusercontent.com/assets/499192/9065550/751404ba-3ad2-11e5-9f92-3d4d5d4b9c54.png)
 
 [OAuth 2.0](http://tools.ietf.org/wg/oauth/draft-ietf-oauth-v2/) authorization server and resource server for the Laravel and Lumen frameworks. Standard compliant thanks to the amazing work by [The League of Extraordinary Packages](http://www.thephpleague.com) OAuth 2.0 authorization server and resource server.
 
-[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/master.svg?style=flat-square)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
-[![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat-square)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
+[![Build Status](https://img.shields.io/travis/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://travis-ci.org/lucadegasperi/oauth2-server-laravel)
+[![StyleCI](https://styleci.io/repos/13300645/shield?style=flat)](https://styleci.io/repos/13300645)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/lucadegasperi/oauth2-server-laravel/master.svg?style=flat)](https://scrutinizer-ci.com/g/lucadegasperi/oauth2-server-laravel)
+[![Total Downloads](https://img.shields.io/packagist/dt/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
+[![Latest Version](http://img.shields.io/github/release/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://github.com/lucadegasperi/oauth2-server-laravel/releases)
+[![License](https://img.shields.io/packagist/l/lucadegasperi/oauth2-server-laravel.svg?style=flat)](https://packagist.org/packages/lucadegasperi/oauth2-server-laravel)
 
 > **Note:** This package assumes you have a good-enough knowledge of the principles behind the [OAuth 2.0 authorization specification](http://tools.ietf.org/html/rfc6749).
 
@@ -25,6 +30,7 @@
  5.0.x    | 4.0.x        |>= 5.4
  5.1.x    | 5.0.x        |>= 5.5.9
  5.2.x    | 5.1.x        |>= 5.5.9
+ 5.3.x    | 6.0.x        |>= 5.6.4
 
 ## Documentation
 
