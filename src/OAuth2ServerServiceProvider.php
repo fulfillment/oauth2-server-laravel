@@ -11,7 +11,12 @@
 
 namespace LucaDegasperi\OAuth2Server;
 
+<<<<<<< HEAD
 use DateInterval;
+=======
+use Illuminate\Contracts\Container\Container as Application;
+use Illuminate\Foundation\Application as LaravelApplication;
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\CryptKey;
@@ -53,6 +58,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the config.
      *
+<<<<<<< HEAD
+=======
+     * @param \Illuminate\Contracts\Container\Container $app
+     *
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
      * @return void
      */
     protected function setupConfig()
@@ -67,6 +77,11 @@ class OAuth2ServerServiceProvider extends ServiceProvider
     /**
      * Setup the migrations.
      *
+<<<<<<< HEAD
+=======
+     * @param \Illuminate\Contracts\Container\Container $app
+     *
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
      * @return void
      */
     protected function setupMigrations()
@@ -87,6 +102,7 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         $this->registerServer();
     }
 
+<<<<<<< HEAD
     protected function registerServer()
     {
         $this->app->singleton(AuthorizationServer::class, function ($app) {
@@ -105,6 +121,56 @@ class OAuth2ServerServiceProvider extends ServiceProvider
                     $app->make($grantType['class'], $grantType),
                     new DateInterval('PT'.$grantType['access_token_ttl'].'S')
                 );
+=======
+    /**
+     * Register the Authorization server with the IoC container.
+     *
+     * @param \Illuminate\Contracts\Container\Container $app
+     *
+     * @return void
+     */
+    public function registerAuthorizer(Application $app)
+    {
+        $app->singleton('oauth2-server.authorizer', function ($app) {
+            $config = $app['config']->get('oauth2');
+            $issuer = $app->make(AuthorizationServer::class)
+                ->setClientStorage($app->make(ClientInterface::class))
+                ->setSessionStorage($app->make(SessionInterface::class))
+                ->setAuthCodeStorage($app->make(AuthCodeInterface::class))
+                ->setAccessTokenStorage($app->make(AccessTokenInterface::class))
+                ->setRefreshTokenStorage($app->make(RefreshTokenInterface::class))
+                ->setScopeStorage($app->make(ScopeInterface::class))
+                ->requireScopeParam($config['scope_param'])
+                ->setDefaultScope($config['default_scope'])
+                ->requireStateParam($config['state_param'])
+                ->setScopeDelimiter($config['scope_delimiter'])
+                ->setAccessTokenTTL($config['access_token_ttl']);
+
+            // add the supported grant types to the authorization server
+            foreach ($config['grant_types'] as $grantIdentifier => $grantParams) {
+                $grant = $app->make($grantParams['class']);
+                $grant->setAccessTokenTTL($grantParams['access_token_ttl']);
+
+                if (array_key_exists('callback', $grantParams)) {
+                    list($className, $method) = array_pad(explode('@', $grantParams['callback']), 2, 'verify');
+                    $verifier = $app->make($className);
+                    $grant->setVerifyCredentialsCallback([$verifier, $method]);
+                }
+
+                if (array_key_exists('auth_token_ttl', $grantParams)) {
+                    $grant->setAuthTokenTTL($grantParams['auth_token_ttl']);
+                }
+
+                if (array_key_exists('refresh_token_ttl', $grantParams)) {
+                    $grant->setRefreshTokenTTL($grantParams['refresh_token_ttl']);
+                }
+
+                if (array_key_exists('rotate_refresh_tokens', $grantParams)) {
+                    $grant->setRefreshTokenRotation($grantParams['rotate_refresh_tokens']);
+                }
+
+                $issuer->addGrantType($grant, $grantIdentifier);
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
             }
 
             return $server;
@@ -121,7 +187,19 @@ class OAuth2ServerServiceProvider extends ServiceProvider
         });
     }
 
+<<<<<<< HEAD
     protected function registerGrantTypes()
+=======
+    /**
+     * Register the Middleware to the IoC container because
+     * some middleware need additional parameters.
+     *
+     * @param \Illuminate\Contracts\Container\Container $app
+     *
+     * @return void
+     */
+    public function registerMiddlewareBindings(Application $app)
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
     {
         $this->app->bind(AuthCodeGrant::class, function ($app, $parameters = []) {
             $grant = new AuthCodeGrant(

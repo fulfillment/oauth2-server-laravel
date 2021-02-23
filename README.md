@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 # Laravel OAuth 2.0
+=======
+### NOTE: Supporting this until we migrate away. As of writing that just means supporting Laravel 5.5. Readme barely changed and neither will anything else as long as it works.
+
+# OAuth 2.0 Server for Laravel
+>>>>>>> 9d64db1b22cda7df7e7e71d154ed7b04fd40b0d8
 
 ![oauth2-server-laravel](https://cloud.githubusercontent.com/assets/499192/9065550/751404ba-3ad2-11e5-9f92-3d4d5d4b9c54.png)
 
