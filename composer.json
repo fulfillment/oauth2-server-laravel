@@ -69,9 +69,6 @@
     ]
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "6.0-dev"
-    },
     "laravel": {
       "providers": [
         "LucaDegasperi\\OAuth2Server\\Oauth2ServerServiceProvider"
