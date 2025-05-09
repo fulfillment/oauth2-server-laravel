@@ -13,7 +13,7 @@ use Behat\Behat\Exception\PendingException;
 use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use LucaDegasperi\OAuth2Server\Tests\Database\Seeders\OAuth2DatabaseSeeder;
 use Orchestra\Testbench\BehatFeatureContext;
-use PHPUnit_Framework_Assert as PHPUnit;
+use PHPUnit\Framework\Assert as PHPUnit;
 
 /**
  * Features context.
