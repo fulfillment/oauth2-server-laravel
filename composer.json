@@ -15,28 +15,26 @@
         {
             "name": "Robert Clancy",
             "email": "robbo@postedin.com"
+        },
+        {
+            "name": "Steven Hawley",
+            "email": "shawley@fulfillment.com"
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/database": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "illuminate/console": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "illuminate/contracts": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "illuminate/http": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "illuminate/config": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*",
-        "league/oauth2-server": "4.1.*"
+        "php": ">=7.4",
+        "laravel/lumen-framework": "^8.3.4",
+        "league/oauth2-server": ">=8.4.3"
     },
     "require-dev": {
-        "orchestra/testbench": "3.1.* || 3.2.*",
-        "phpunit/phpunit": "^4.8 || ^5.0",
-        "phpspec/phpspec": "^2.2",
-        "mockery/mockery": "^0.9.4",
-        "henrikbjorn/phpspec-code-coverage": "^1.0"
+        "orchestra/testbench": ">=6.47.1",
+        "phpunit/phpunit": ">=9.6.23",
+        "phpspec/phpspec": ">=7.6",
+        "mockery/mockery": ">=1.6.12"
     },
     "autoload": {
         "psr-4": {
-            "LucaDegasperi\\OAuth2Server\\": "src"
+            "LucaDegasperi\\OAuth2Server\\": "src/"
         }
     },
     "autoload-dev": {
@@ -57,5 +55,10 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": false
+        }
+    }
 }
