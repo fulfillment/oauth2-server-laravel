@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Orchestra\Testbench\TestCase;
 
-abstract class AbstractTestCase extends OrchestraTestCase
+abstract class AbstractTestCase extends TestCase
 {
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
     }

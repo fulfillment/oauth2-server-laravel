@@ -15,7 +15,7 @@ abstract class AbstractDBTestCase extends AbstractTestCase
 {
     protected $artisan;
 
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
 
@@ -41,7 +41,7 @@ abstract class AbstractDBTestCase extends AbstractTestCase
         ]);
     }
 
-    public function tearDown()
+    public function tearDown() :void
     {
         //$this->artisan->call('migrate:reset');
     }
